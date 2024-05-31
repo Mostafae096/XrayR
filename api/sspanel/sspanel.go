@@ -156,7 +156,7 @@ func (c *APIClient) parseResponse(res *resty.Response, path string, err error) (
 
 // GetNodeInfo will pull NodeInfo Config from ssPanel
 func (c *APIClient) GetNodeInfo() (nodeInfo *api.NodeInfo, err error) {
-	path := fmt.Sprintf("/mod_mu/nodes/%d/info", c.NodeID)
+	path := fmt.Sprintf("/nodes/%d/info", c.NodeID)
 	res, err := c.client.R().
 		SetResult(&Response{}).
 		SetHeader("If-None-Match", c.eTags["node"]).
@@ -262,7 +262,7 @@ func (c *APIClient) GetUserList() (UserList *[]api.UserInfo, err error) {
 func (c *APIClient) ReportNodeStatus(nodeStatus *api.NodeStatus) (err error) {
 	// Determine whether a status report is in need
 	if compareVersion(c.version, "2023.2") == -1 {
-		path := fmt.Sprintf("/mod_mu/nodes/%d/info", c.NodeID)
+		path := fmt.Sprintf("/nodes/%d/info", c.NodeID)
 		systemLoad := SystemLoad{
 			Uptime: strconv.FormatUint(nodeStatus.Uptime, 10),
 			Load:   fmt.Sprintf("%.2f %.2f %.2f", nodeStatus.CPU/100, nodeStatus.Mem/100, nodeStatus.Disk/100),
